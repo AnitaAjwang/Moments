@@ -9,7 +9,7 @@ import postRoutes from './routes/posts.js';
 import userRoutes from './routes/user.js';
 
 const app = express();
-//dotenv.config();
+dotenv.config();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true}));// 30mb because images are also going to be sent
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true}));
@@ -25,11 +25,9 @@ app.use(function (req, res, next) {
 app.use('/posts', postRoutes);
 app.use('/user',userRoutes);
 
-
-const CONNECTION_URL = 'mongodb+srv://user1:6zSRbZDc2anDuuG@cluster0.wlixl.mongodb.net/memories?retryWrites=true&w=majority';
 const PORT = process.env.port || 5000;
 
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))//if connection is successful
     .catch((error) => console.log(error.message));
 
